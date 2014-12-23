@@ -52,13 +52,15 @@ else
 fi
 
 if [ ${DISTRIBUTION} = 'fedora' -o \
-     ${DISTRIBUTION} = 'debian' -a ${RELEASE} = 'jessie' ]
+     ${DISTRIBUTION} = 'debian' -a ${RELEASE} = 'jessie' -o \
+     ${DISTRIBUTION} = 'centos' -a ${RELEASE} = '7' ]
 then
   # Improve systemd support:
   # - The fedora template does it but the fedora images from the download
   #   template apparently don't.
   # - The debian template does it but the debian image from the download
   #   template apparently not.
+  # - For centos, there there is no support in either template yet.
   utils.lxc.stop
   echo  >> /var/lib/lxc/${CONTAINER}/config
   echo "# settings for systemd with PID 1:" >> /var/lib/lxc/${CONTAINER}/config
