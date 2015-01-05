@@ -46,10 +46,14 @@ else
                    --arch ${ARCH}
 fi
 
-if [ ${DISTRIBUTION} = 'fedora' ]; then
+if [ ${DISTRIBUTION} = 'fedora' -o \
+     ${DISTRIBUTION} = 'debian' -a ${RELEASE} = 'jessie' ]
+then
   # Improve systemd support:
   # - The fedora template does it but the fedora images from the download
   #   template apparently don't.
+  # - The debian template does it but the debian image from the download
+  #   template apparently not.
   utils.lxc.stop
   echo  >> /var/lib/lxc/${CONTAINER}/config
   echo "# settings for systemd with PID 1:" >> /var/lib/lxc/${CONTAINER}/config
