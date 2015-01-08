@@ -60,6 +60,8 @@ then
   echo "lxc.kmsg = 0" >> /var/lib/lxc/${CONTAINER}/config
   echo "lxc.autodev = 1" >> /var/lib/lxc/${CONTAINER}/config
   utils.lxc.start
+  utils.lxc.attach rm -f /dev/kmsg
+  utils.lxc.stop
 fi
 
 log "Container created!"
