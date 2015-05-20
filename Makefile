@@ -2,6 +2,8 @@ UBUNTU_BOXES= precise quantal raring saucy trusty utopic vivid
 DEBIAN_BOXES= squeeze wheezy sid jessie
 CENTOS_BOXES= 6 7
 FEDORA_BOXES= rawhide 23 22 21 20 19
+OPENSUSE_BOXES= 12.3
+
 TODAY=$(shell date -u +"%Y-%m-%d")
 
 # Replace i686 with i386 and x86_64 with amd64
@@ -15,6 +17,7 @@ ubuntu: $(UBUNTU_BOXES)
 debian: $(DEBIAN_BOXES)
 centos: $(CENTOS_BOXES)
 fedora: $(FEDORA_BOXES)
+opensuse: $(OPENSUSE_BOXES)
 
 # REFACTOR: Figure out how can we reduce duplicated code
 $(UBUNTU_BOXES): CONTAINER = "vagrant-base-${@}-$(ARCH)"
@@ -45,6 +48,13 @@ $(FEDORA_BOXES):
 	@sudo -E ./mk-fedora.sh $(@) $(ARCH) $(CONTAINER) $(PACKAGE)
 	@sudo chmod +rw $(PACKAGE)
 	@sudo chown ${USER}: $(PACKAGE)
+$(OPENSUSE_BOXES): CONTAINER = "vagrant-base-opensuse-${@}-$(ARCH)"
+$(OPENSUSE_BOXES): PACKAGE = "output/${TODAY}/vagrant-lxc-opensuse-${@}-$(ARCH).box"
+$(OPENSUSE_BOXES):
+	@mkdir -p $$(dirname $(PACKAGE))
+	@sudo -E ./mk-opensuse.sh $(@) $(ARCH) $(CONTAINER) $(PACKAGE)
+	@sudo chmod +rw $(PACKAGE)
+	@sudo chown ${USER}: $(PACKAGE)
 
 acceptance: CONTAINER = "vagrant-base-acceptance-$(ARCH)"
 acceptance: PACKAGE = "output/${TODAY}/vagrant-lxc-acceptance-$(ARCH).box"
@@ -60,7 +70,7 @@ release:
 	git tag $(version)
 	git push && git push --tags
 
-clean: ALL_BOXES = ${DEBIAN_BOXES} ${UBUNTU_BOXES} ${CENTOS_BOXES} ${FEDORA_BOXES} acceptance
+clean: ALL_BOXES = ${DEBIAN_BOXES} ${UBUNTU_BOXES} ${CENTOS_BOXES} ${FEDORA_BOXES} ${OPENSUSE_BOXES} acceptance
 clean:
 	@for r in $(ALL_BOXES); do \
 		sudo -E ./clean.sh $${r}\
