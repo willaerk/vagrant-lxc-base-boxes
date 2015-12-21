@@ -20,6 +20,7 @@ This fork is still maintained:
   - Trusty 14.04 x86_64
   - Utopic 14.10 x86_64
   - Vivid 15.04 x86_64
+  - Wily 15.10 x86_64
 * Debian
   - Squeeze x86_64
   - Wheezy x86_64
