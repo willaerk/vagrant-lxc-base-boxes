@@ -56,6 +56,15 @@ Babushka pre-installed.
 
 When using ANSIBLE=1, an optional ANSIBLE_VERSION parameter may be passed that will specify which version of ansible to install. By default it will install the latest Ansible.
 
+```sh
+ADDPACKAGES="aptitude htop" \
+make trusty
+```
+
+Will build a Ubuntu Trusty x86_64 box with aptitude and htop as additional
+packages pre-installed. You can also specify the packages in a file
+trusty_packages.
+
 ## Pre built base boxes
 
 _**NOTE:** None of the base boxes below have a provisioner pre-installed_
