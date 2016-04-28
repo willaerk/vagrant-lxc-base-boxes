@@ -3,13 +3,6 @@
 This repository contains a set of scripts for creating base boxes for usage with
 [vagrant-lxc](https://github.com/fgrehm/vagrant-lxc) 1.0+.
 
-## :warning: Deprecated :warning:
-
-[I've stepped down as a maintainer of the plugin](https://github.com/fgrehm/vagrant-lxc/issues/375) and I'm no longer maintaining this repo. Feel free to use it as a starting point for your own boxes and if you need any help with that just LMK! :beers:
-
-This fork is still maintained:
-[https://github.com/obnoxxx/vagrant-lxc-base-boxes](https://github.com/obnoxxx/vagrant-lxc-base-boxes)
-
 ## What distros / versions can I build with this?
 
 * Ubuntu
