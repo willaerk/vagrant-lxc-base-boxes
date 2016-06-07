@@ -76,7 +76,26 @@ if [ $SALT = 1 ]; then
     warn "Salt can't be installed on Ubuntu Raring 13.04, skipping"
   else
     if [ $DISTRIBUTION = 'ubuntu' ]; then
-      utils.lxc.attach add-apt-repository -y ppa:saltstack/salt
+      if [ $RELEASE = 'precise' ] || [ $RELEASE = 'trusty' ] || [ $RELEASE = 'xenial' ] ; then
+        # For LTS releases we use packages from repo.saltstack.com
+        if [ $RELEASE = 'precise' ]; then
+          SALT_SOURCE_1="deb http://repo.saltstack.com/apt/ubuntu/12.04/amd64/latest precise main"
+          SALT_GPG_KEY="https://repo.saltstack.com/apt/ubuntu/12.04/amd64/latest/SALTSTACK-GPG-KEY.pub"
+        elif [ $RELEASE = 'trusty' ]; then
+          SALT_SOURCE_1="deb http://repo.saltstack.com/apt/ubuntu/14.04/amd64/latest trusty main"
+          SALT_GPG_KEY="https://repo.saltstack.com/apt/ubuntu/14.04/amd64/latest/SALTSTACK-GPG-KEY.pub"
+        elif [ $RELEASE = 'xenial' ]; then
+          SALT_SOURCE_1="deb http://repo.saltstack.com/apt/ubuntu/16.04/amd64/latest xenial main"
+          SALT_GPG_KEY="https://repo.saltstack.com/apt/ubuntu/16.04/amd64/latest/SALTSTACK-GPG-KEY.pub"
+        fi
+        echo $SALT_SOURCE_1 > ${ROOTFS}/etc/apt/sources.list.d/saltstack.list
+
+        utils.lxc.attach wget -q -O /tmp/salt.key $SALT_GPG_KEY
+        utils.lxc.attach apt-key add /tmp/salt.key
+      elif [ $RELEASE = 'quantal' ] || [ $RELEASE = 'saucy' ] ; then
+        utils.lxc.attach add-apt-repository -y ppa:saltstack/salt
+      fi
+      # For Utopic, Vivid and Wily releases use system packages
     else # DEBIAN
       if [ $RELEASE == "squeeze" ]; then
         SALT_SOURCE_1="deb http://debian.saltstack.com/debian squeeze-saltstack main"
