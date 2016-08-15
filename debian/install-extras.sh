@@ -117,14 +117,16 @@ if [ $SALT = 1 ]; then
         SALT_SOURCE_1="deb http://debian.saltstack.com/debian squeeze-saltstack main"
         SALT_SOURCE_2="deb http://backports.debian.org/debian-backports squeeze-backports main contrib non-free"
       elif [ $RELEASE == "wheezy" ]; then
-        SALT_SOURCE_1="deb http://debian.saltstack.com/debian wheezy-saltstack main"
+        SALT_SOURCE_1="deb http://repo.saltstack.com/apt/debian/7/amd64/latest wheezy main"
+      elif [ $RELEASE == "jessie" ]; then
+        SALT_SOURCE_1="deb http://repo.saltstack.com/apt/debian/8/amd64/latest jessie main"
       else
         SALT_SOURCE_1="deb http://debian.saltstack.com/debian unstable main"
       fi
       echo $SALT_SOURCE_1 > ${ROOTFS}/etc/apt/sources.list.d/saltstack.list
       echo $SALT_SOURCE_2 >> ${ROOTFS}/etc/apt/sources.list.d/saltstack.list
 
-      utils.lxc.attach wget -q -O /tmp/salt.key "http://debian.saltstack.com/debian-salt-team-joehealy.gpg.key"
+      utils.lxc.attach wget -q -O /tmp/salt.key "https://repo.saltstack.com/apt/debian/8/amd64/latest/SALTSTACK-GPG-KEY.pub"
       utils.lxc.attach apt-key add /tmp/salt.key
     fi
     utils.lxc.attach apt-get update
