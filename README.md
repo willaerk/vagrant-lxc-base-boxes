@@ -30,6 +30,7 @@ This repository contains a set of scripts for creating base boxes for usage with
   - rawhide x86_64
 * CentOS
   - 6 x86_64
+  - 7 x86_64
 
 ## Building the boxes
 
