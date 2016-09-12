@@ -40,7 +40,7 @@ create one based on [this](https://github.com/lxc/lxc/blob/master/templates/lxc-
 and drop it on your lxc templates path (usually `/usr/share/lxc/templates`)._
 
 ```sh
-git clone https://github.com/fgrehm/vagrant-lxc-base-boxes.git
+git clone https://github.com/obnoxxx/vagrant-lxc-base-boxes.git
 cd vagrant-lxc-base-boxes
 make precise
 ```
