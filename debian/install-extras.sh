@@ -82,7 +82,11 @@ if [ $PUPPET = 1 ]; then
     wget http://apt.puppetlabs.com/puppetlabs-release-${RELEASE}.deb -O "${ROOTFS}/tmp/puppetlabs-release-stable.deb" &>>${LOG}
     utils.lxc.attach dpkg -i "/tmp/puppetlabs-release-stable.deb"
     utils.lxc.attach apt-get update
-    utils.lxc.attach apt-get install puppet -y --force-yes
+    if [ ${PUPPET_VERSION} != '' ]; then
+      utils.lxc.attach apt-get install puppet-common=${PUPPET_VERSION} puppet=${PUPPET_VERSION} -y --force-yes
+    else
+      utils.lxc.attach apt-get install puppet -y --force-yes
+    fi
   fi
 else
   log "Skipping Puppet installation"
