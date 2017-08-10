@@ -79,14 +79,24 @@ if [ $PUPPET = 1 ]; then
     warn "Puppet can't be installed on Debian sid, skipping"
   else
     log "Installing Puppet"
-    wget http://apt.puppetlabs.com/puppetlabs-release-${RELEASE}.deb -O "${ROOTFS}/tmp/puppetlabs-release-stable.deb" &>>${LOG}
+    case ${PUPPET_VERSION} in
+    4.* )
+      release_url=http://apt.puppetlabs.com/puppetlabs-release-pc1-${RELEASE}.deb
+      puppet_packages="puppet-agent=${PUPPET_VERSION}"
+      ;;
+    3.* )
+      release_url=http://apt.puppetlabs.com/puppetlabs-release-${RELEASE}.deb
+      puppet_packages="puppet-common=${PUPPET_VERSION} puppet=${PUPPET_VERSION}"
+      ;;
+    * )
+      release_url=http://apt.puppetlabs.com/puppetlabs-release-${RELEASE}.deb
+      puppet_packages="puppet"
+      ;;
+    esac
+    wget ${release_url} -O "${ROOTFS}/tmp/puppetlabs-release-stable.deb" &>>${LOG}
     utils.lxc.attach dpkg -i "/tmp/puppetlabs-release-stable.deb"
     utils.lxc.attach apt-get update
-    if [ ${PUPPET_VERSION} != '' ]; then
-      utils.lxc.attach apt-get install puppet-common=${PUPPET_VERSION} puppet=${PUPPET_VERSION} -y --force-yes
-    else
-      utils.lxc.attach apt-get install puppet -y --force-yes
-    fi
+    utils.lxc.attach apt-get install ${puppet_packages} -y --force-yes
   fi
 else
   log "Skipping Puppet installation"
