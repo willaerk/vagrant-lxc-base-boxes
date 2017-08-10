@@ -80,7 +80,7 @@ if [ $PUPPET = 1 ]; then
   else
     log "Installing Puppet"
     case ${PUPPET_VERSION} in
-    4.* )
+    1.* )
       release_url=http://apt.puppetlabs.com/puppetlabs-release-pc1-${RELEASE}.deb
       puppet_packages="puppet-agent=${PUPPET_VERSION}"
       ;;
